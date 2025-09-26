@@ -3,80 +3,91 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Hiiiiiiiiiiiii</title>
+  <title>Mời đi chơi</title>
   <style>
     :root{
-  --bg:#ffe6f0;        /* hồng pastel nhẹ */
-  --card:#fff0f5;      /* hồng nhạt cho thẻ */
-  --accent:#ff80b5;    /* hồng đậm hơn cho nút */
-  --accent-2:#ffb6d5;  /* hồng sáng cho nút phụ */
-  --text:#5a2d3d;      /* màu chữ tím hồng nhẹ */
-}
+      --bg:#ffe6f0;
+      --card:#fff0f5;
+      --accent:#ff80b5;
+      --accent-2:#ffb6d5;
+      --text:#5a2d3d;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--bg), #ffeef7);
+      color: var(--text);
+    }
+    .card {
+      width: min(720px, 92vw);
+      background: var(--card);
+      border-radius: 18px;
+      padding: 32px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    h1 { margin: 0 0 20px 0; font-size: clamp(20px,4.2vw,34px); }
+    .buttons { display: flex; gap: 18px; justify-content: center; margin-top: 28px; }
 
-body{
-  font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-  margin:0; 
-  min-height:100vh; 
-  display:grid; 
-  place-items:center; 
-  background:linear-gradient(135deg, var(--bg), #ffeef7); /* nền loang hồng */
-  color:var(--text);
-}
-    *{box-sizing:border-box}
-    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0; min-height:100vh; display:grid; place-items:center; background:linear-gradient(135deg,var(--bg),#f0fbff); color:var(--text)}
+    .btn {
+      appearance: none;
+      border: 0;
+      padding: 14px 22px;
+      font-size: 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 220ms cubic-bezier(.2,.9,.3,1), opacity 220ms;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+    .btn-yes { background: linear-gradient(90deg, var(--accent-2), #66e3d8); color: #083037; }
+    .btn-no { background: linear-gradient(90deg, #ffdcdc, var(--accent)); color: #540000; }
 
-    .card{width:min(720px,92vw); background:var(--card); border-radius:18px; padding:32px; box-shadow:0 10px 30px rgba(0,0,0,0.08); text-align:center}
-    h1{margin:0 0 20px 0; font-size:clamp(20px,4.2vw,34px)}
-    .buttons{display:flex; gap:18px; justify-content:center; margin-top:28px}
+    .screen { display: none; }
+    .screen.show { display: block; }
 
-    .btn{appearance:none; border:0; padding:14px 22px; font-size:16px; border-radius:12px; cursor:pointer; transition:transform 220ms cubic-bezier(.2,.9,.3,1), opacity 220ms; box-shadow:0 6px 18px rgba(0,0,0,0.08);}
-
-    .btn-yes{background:linear-gradient(90deg,var(--accent-2),#66e3d8); color:#083037; transform:scale(1);}
-    .btn-no{background:linear-gradient(90deg,#ffdcdc,var(--accent)); color:#540000;}
-
-    .screen{display:none;}
-    .screen.show{display:block}
-
-    .growing{transform:scale(1.12)}
-    .shrinking{transform:scale(0.78)}
+    .growing { transform: scale(1.12); }
+    .shrinking { transform: scale(0.78); }
 
     .options {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
-    text-align: center; /* label nằm giữa */
-    flex-wrap: wrap; /* để nếu màn hình nhỏ thì tự xuống dòng */
-  }
-
-  .choice-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 200px; /* giới hạn chiều rộng mỗi mục */
-  }
-
-  .choice-item img {
-    width: 100%;
-    height: 140px;
-    object-fit: cover; /* ảnh cắt gọn không méo */
-    border-radius: 10px;
-    margin-bottom: 8px;
-  }
-
-  .choice-item label {
-    font-size: 16px;
-    cursor: pointer;
-  }
-
-    @media (max-width:420px){.card{padding:24px} .btn{padding:12px 16px}}
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+      text-align: center;
+      flex-wrap: wrap;
+    }
+    .choice-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 200px;
+    }
+    .choice-item img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 8px;
+    }
+    .choice-item label {
+      font-size: 16px;
+      cursor: pointer;
+    }
+    @media (max-width:420px) {
+      .card { padding: 24px; }
+      .btn { padding: 12px 16px; }
+    }
   </style>
 </head>
 <body>
   <!-- Screen 1 -->
   <main class="card screen show" id="screen1">
     <h1>Cậu ơiiiiii!!! Đi chơi với tui nha🥺🥺🥺</h1>
-	  <img src="plsease.png" style="width: 500px; height: 300px">
+    <img src="images/plsease.png" style="width: 500px; height: 300px;" alt="ảnh lời mời">
     <div class="buttons">
       <button id="yesBtn" class="btn btn-yes">ĐỒNG Ý</button>
       <button id="noBtn" class="btn btn-no">KHÔNG ĐỒNG Ý</button>
@@ -87,10 +98,13 @@ body{
   <main class="card screen" id="screen2">
     <h1>Cảm ơn cậu nhìu nhóoo🥰</h1>
     <p>Cậu muốn đi chơi ngày nào ạ?</p>
-    <input type="date" id="datePicker" style="padding:10px; font-size:16px; border-radius:8px; border:1px solid #ccc;" />
-    <div style="margin-top:20px">
-      <button class="btn btn-yes" id="submitDate">Gửi</button>
-    </div>
+    <form id="form1" action="https://formspree.io/f/mgvnvqpn" method="POST">
+      <input type="date" name="date" id="datePicker"
+             style="padding:10px; font-size:16px; border-radius:8px; border:1px solid #ccc;" required />
+      <div style="margin-top:20px">
+        <button type="submit" class="btn btn-yes">Gửi</button>
+      </div>
+    </form>
     <div style="margin-top:20px">
       <button class="btn" id="backFromYes">Quay lại</button>
     </div>
@@ -107,34 +121,36 @@ body{
   <!-- Screen 4: lựa chọn nơi đi chơi -->
   <main class="card screen" id="screen4">
     <h1>Lựa chọn nơi đi chơi đi nà😚</h1>
-    
-    <div class="options">
-      <div class="choice-item">
-        <img src="cafe.jpg" alt="Đi cafe">
-        <label><input type="checkbox" name="place" value="Cafe" /> Đi cafe</label>
+    <form id="form2" action="https://formspree.io/f/mgvnvqpn" method="POST">
+      <div class="options">
+        <div class="choice-item">
+          <img src="images/cafe.jpg" alt="Đi cafe">
+          <label><input type="checkbox" name="place" value="Cafe" /> Đi cafe</label>
+        </div>
+        <div class="choice-item">
+          <img src="images/didao.jpg" alt="Đi dạo">
+          <label><input type="checkbox" name="place" value="Dạo" /> Đi dạo</label>
+        </div>
+        <div class="choice-item">
+          <img src="images/hotay.jpg" alt="Chill chill hồ Tây">
+          <label><input type="checkbox" name="place" value="Chill" /> Ngồi chill chill hồ Tây</label>
+        </div>
+        <label>
+          <input type="checkbox" id="otherCheck" name="place" value="Khác" /> Lựa chọn khác:
+          <input type="text" name="otherChoice" id="otherInput"
+                 placeholder="Nhập lựa chọn" style="padding:6px; border-radius:6px; border:1px solid #ccc;" disabled />
+        </label>
       </div>
-      <div class="choice-item">
-        <img src="didao.jpg" alt="Đi dạo">
-        <label><input type="checkbox" name="place" value="Dạo" /> Đi dạo</label>
+      <div style="margin-top:24px">
+        <button type="submit" class="btn btn-yes">Nộp nơi đi chơi</button>
       </div>
-      <div class="choice-item">
-        <img src="hotay.jpg" alt="Chill chill hồ Tây">
-        <label><input type="checkbox" name="place" value="Chill" /> Ngồi chill chill hồ Tây</label>
-      </div>
-      <label>
-        <input type="checkbox" id="otherCheck" /> Lựa chọn khác: 
-        <input type="text" id="otherInput" placeholder="Nhập lựa chọn" style="padding:6px; border-radius:6px; border:1px solid #ccc;" disabled />
-      </label>
-    </div>
-    <div style="margin-top:24px">
-      <button class="btn btn-yes" id="nextFromPlaces">Tiếp</button>
-    </div>
-	</main>
+    </form>
+  </main>
 
   <!-- Screen 5: trang cuối -->
   <main class="card screen" id="screen5">
     <h1>Hẹn cậu buổi tối hôm đó nhó, cảm ơn cậu 🥰💖😘</h1>
-	  <img src="thatymm.png" >
+    <img src="images/thatymm.png" alt="tình cảm">
   </main>
 
   <script>
@@ -147,13 +163,13 @@ body{
     const screen5 = document.getElementById('screen5');
     const backFromYes = document.getElementById('backFromYes');
     const backFromNo = document.getElementById('backFromNo');
-    const submitDate = document.getElementById('submitDate');
+    const form1 = document.getElementById('form1');
     const datePicker = document.getElementById('datePicker');
-    const nextFromPlaces = document.getElementById('nextFromPlaces');
+    const form2 = document.getElementById('form2');
+    const nextFromPlaces = form2.querySelector('button[type="submit"]');
     const otherCheck = document.getElementById('otherCheck');
     const otherInput = document.getElementById('otherInput');
 
-    // Hover effect for no button
     noBtn.addEventListener('mouseenter', () => {
       noBtn.classList.add('shrinking');
       yesBtn.classList.add('growing');
@@ -163,19 +179,14 @@ body{
       yesBtn.classList.remove('growing');
     });
 
-    // On click yes -> show screen2
     yesBtn.addEventListener('click', () => {
       screen1.classList.remove('show');
       screen2.classList.add('show');
     });
-
-    // On click no -> show screen3
     noBtn.addEventListener('click', () => {
       screen1.classList.remove('show');
       screen3.classList.add('show');
     });
-
-    // Back buttons
     backFromYes.addEventListener('click', () => {
       screen2.classList.remove('show');
       screen1.classList.add('show');
@@ -185,26 +196,27 @@ body{
       screen1.classList.add('show');
     });
 
-    // Submit date -> go to screen4
-    submitDate.addEventListener('click', () => {
-      if(datePicker.value){
-        screen2.classList.remove('show');
-        screen4.classList.add('show');
-      } else {
-        alert("Cậu hãy chọn ngày trước nha!");
-      }
+    // Khi gửi form chọn ngày thành công → chuyển sang screen4
+    form1.addEventListener('submit', (e) => {
+      e.preventDefault();  // ngăn reload trang
+      // bạn có thể kiểm tra data form1 trước gửi nếu cần
+      form1.submit();  // gửi form
+      screen2.classList.remove('show');
+      screen4.classList.add('show');
     });
 
-    // Enable/disable other input
     otherCheck.addEventListener('change', () => {
       otherInput.disabled = !otherCheck.checked;
     });
 
-    // Next from places -> go to screen5
-    nextFromPlaces.addEventListener('click', () => {
+    // Khi gửi form chọn nơi đi chơi → chuyển sang screen5
+    form2.addEventListener('submit', (e) => {
+      e.preventDefault();
+      form2.submit();
       screen4.classList.remove('show');
       screen5.classList.add('show');
     });
+
   </script>
 </body>
 </html>

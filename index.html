@@ -98,13 +98,11 @@
   <main class="card screen" id="screen2">
     <h1>Cảm ơn cậu nhìu nhóoo🥰</h1>
     <p>Cậu muốn đi chơi ngày nào ạ?</p>
-    <form id="form1" action="https://formspree.io/f/mgvnvqpn" method="POST">
-      <input type="date" name="date" id="datePicker"
-             style="padding:10px; font-size:16px; border-radius:8px; border:1px solid #ccc;" required />
-      <div style="margin-top:20px">
-        <button type="submit" class="btn btn-yes">Gửi</button>
-      </div>
-    </form>
+    <input type="date" id="datePicker"
+           style="padding:10px; font-size:16px; border-radius:8px; border:1px solid #ccc;" required />
+    <div style="margin-top:20px">
+      <button id="toPlaces" class="btn btn-yes">Tiếp</button>
+    </div>
     <div style="margin-top:20px">
       <button class="btn" id="backFromYes">Quay lại</button>
     </div>
@@ -121,30 +119,28 @@
   <!-- Screen 4: lựa chọn nơi đi chơi -->
   <main class="card screen" id="screen4">
     <h1>Lựa chọn nơi đi chơi đi nà😚</h1>
-    <form id="form2" action="https://formspree.io/f/mgvnvqpn" method="POST">
-      <div class="options">
-        <div class="choice-item">
-          <img src="images/cafe.jpg" alt="Đi cafe">
-          <label><input type="checkbox" name="place" value="Cafe" /> Đi cafe</label>
-        </div>
-        <div class="choice-item">
-          <img src="images/didao.jpg" alt="Đi dạo">
-          <label><input type="checkbox" name="place" value="Dạo" /> Đi dạo</label>
-        </div>
-        <div class="choice-item">
-          <img src="images/hotay.jpg" alt="Chill chill hồ Tây">
-          <label><input type="checkbox" name="place" value="Chill" /> Ngồi chill chill hồ Tây</label>
-        </div>
-        <label>
-          <input type="checkbox" id="otherCheck" name="place" value="Khác" /> Lựa chọn khác:
-          <input type="text" name="otherChoice" id="otherInput"
-                 placeholder="Nhập lựa chọn" style="padding:6px; border-radius:6px; border:1px solid #ccc;" disabled />
-        </label>
+    <div class="options">
+      <div class="choice-item">
+        <img src="images/cafe.jpg" alt="Đi cafe">
+        <label><input type="checkbox" class="place" value="Cafe" /> Đi cafe</label>
       </div>
-      <div style="margin-top:24px">
-        <button type="submit" class="btn btn-yes">Nộp nơi đi chơi</button>
+      <div class="choice-item">
+        <img src="images/didao.jpg" alt="Đi dạo">
+        <label><input type="checkbox" class="place" value="Dạo" /> Đi dạo</label>
       </div>
-    </form>
+      <div class="choice-item">
+        <img src="images/hotay.jpg" alt="Chill chill hồ Tây">
+        <label><input type="checkbox" class="place" value="Chill hồ Tây" /> Ngồi chill chill hồ Tây</label>
+      </div>
+      <label>
+        <input type="checkbox" id="otherCheck" class="place" value="Khác" /> Lựa chọn khác:
+        <input type="text" id="otherInput"
+               placeholder="Nhập lựa chọn" style="padding:6px; border-radius:6px; border:1px solid #ccc;" disabled />
+      </label>
+    </div>
+    <div style="margin-top:24px">
+      <button id="toFinal" class="btn btn-yes">Tiếp</button>
+    </div>
   </main>
 
   <!-- Screen 5: trang cuối -->
@@ -152,6 +148,12 @@
     <h1>Hẹn cậu buổi tối hôm đó nhó, cảm ơn cậu 🥰💖😘</h1>
     <img src="images/thatymm.png" alt="tình cảm">
   </main>
+
+  <!-- Hidden form để gửi dữ liệu cuối cùng -->
+  <form id="finalForm" action="https://formspree.io/f/mgvnvqpn" method="POST" style="display:none;">
+    <input type="hidden" name="Ngày đi chơi" id="finalDate">
+    <input type="hidden" name="Địa điểm" id="finalPlaces">
+  </form>
 
   <script>
     const yesBtn = document.getElementById('yesBtn');
@@ -163,13 +165,16 @@
     const screen5 = document.getElementById('screen5');
     const backFromYes = document.getElementById('backFromYes');
     const backFromNo = document.getElementById('backFromNo');
-    const form1 = document.getElementById('form1');
     const datePicker = document.getElementById('datePicker');
-    const form2 = document.getElementById('form2');
-    const nextFromPlaces = form2.querySelector('button[type="submit"]');
+    const toPlaces = document.getElementById('toPlaces');
+    const toFinal = document.getElementById('toFinal');
     const otherCheck = document.getElementById('otherCheck');
     const otherInput = document.getElementById('otherInput');
+    const finalForm = document.getElementById('finalForm');
+    const finalDate = document.getElementById('finalDate');
+    const finalPlaces = document.getElementById('finalPlaces');
 
+    // Hiệu ứng nút
     noBtn.addEventListener('mouseenter', () => {
       noBtn.classList.add('shrinking');
       yesBtn.classList.add('growing');
@@ -179,6 +184,7 @@
       yesBtn.classList.remove('growing');
     });
 
+    // Điều hướng
     yesBtn.addEventListener('click', () => {
       screen1.classList.remove('show');
       screen2.classList.add('show');
@@ -196,11 +202,11 @@
       screen1.classList.add('show');
     });
 
-    // Khi gửi form chọn ngày thành công → chuyển sang screen4
-    form1.addEventListener('submit', (e) => {
-      e.preventDefault();  // ngăn reload trang
-      // bạn có thể kiểm tra data form1 trước gửi nếu cần
-      form1.submit();  // gửi form
+    toPlaces.addEventListener('click', () => {
+      if (!datePicker.value) {
+        alert("Cậu phải chọn ngày trước nha!");
+        return;
+      }
       screen2.classList.remove('show');
       screen4.classList.add('show');
     });
@@ -209,14 +215,41 @@
       otherInput.disabled = !otherCheck.checked;
     });
 
-    // Khi gửi form chọn nơi đi chơi → chuyển sang screen5
-    form2.addEventListener('submit', (e) => {
-      e.preventDefault();
-      form2.submit();
+    toFinal.addEventListener('click', () => {
+      const rawDate = datePicker.value;
+      if (!rawDate) {
+        alert("Cậu phải chọn ngày trước nha!");
+        return;
+      }
+      // Format ngày cho dễ đọc
+      const dateObj = new Date(rawDate);
+      const formattedDate = dateObj.toLocaleDateString("vi-VN");
+
+      let selectedPlaces = [];
+      document.querySelectorAll('.place:checked').forEach(chk => {
+        if (chk.id === "otherCheck" && otherInput.value.trim() !== "") {
+          selectedPlaces.push("Khác: " + otherInput.value.trim());
+        } else if (chk.id !== "otherCheck") {
+          selectedPlaces.push(chk.value);
+        }
+      });
+
+      if (selectedPlaces.length === 0) {
+        alert("Cậu chọn ít nhất một nơi đi chơi nha!");
+        return;
+      }
+
+      // Gán dữ liệu vào form ẩn
+      finalDate.value = formattedDate;
+      finalPlaces.value = selectedPlaces.join(", ");
+
+      // Chuyển màn hình
       screen4.classList.remove('show');
       screen5.classList.add('show');
-    });
 
+      // Submit form ẩn gửi dữ liệu
+      finalForm.submit();
+    });
   </script>
 </body>
 </html>
